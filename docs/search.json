@@ -1,16 +1,16 @@
 [
   {
+    "objectID": "meteo.html",
+    "href": "meteo.html",
+    "title": "Meteo",
+    "section": "",
+    "text": "Welcome in a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
     "objectID": "favorite.html",
     "href": "favorite.html",
     "title": "\nInformations météo\n",
     "section": "",
     "text": "&lt;!DOCTYPE html&gt;\n\n\n\n\n\nMétéo\n\n\n\n\nInformations météo"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Meteo",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
   }
 ]
