@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Météo</title>
+</head>
+<body>
+    <h1>Informations météo</h1>
+    <p id="date-time"></p>
+
+    <script>
+        // Fonction pour mettre à jour la date et l'heure
+        function updateDateTime() {
+            var now = new Date();
+            var date = now.toDateString();
+            var time = now.toLocaleTimeString();
+
+            // Afficher la date et l'heure dans l'élément avec l'ID "date-time"
+            document.getElementById("date-time").innerHTML = "Date : " + date + "<br>Heure : " + time;
+        }
+
+        // Appeler la fonction pour la première fois
+        updateDateTime();
+
+        // Mettre à jour la date et l'heure chaque seconde
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
