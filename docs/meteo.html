@@ -108,6 +108,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#initialisation-des-dates-de-debut-et-fin-dextraction-de-données" id="toc-initialisation-des-dates-de-debut-et-fin-dextraction-de-données" class="nav-link active" data-scroll-target="#initialisation-des-dates-de-debut-et-fin-dextraction-de-données">initialisation des dates de debut et fin d’extraction de données</a></li>
   <li><a href="#copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" id="toc-copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" class="nav-link" data-scroll-target="#copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent">copie de l’URL du site open-meteo avec les differents critères qui nous interessent</a></li>
   <li><a href="#récuperation-des-données" id="toc-récuperation-des-données" class="nav-link" data-scroll-target="#récuperation-des-données">récuperation des données</a></li>
+  <li><a href="#initialisation-des-tableaux-de-données" id="toc-initialisation-des-tableaux-de-données" class="nav-link" data-scroll-target="#initialisation-des-tableaux-de-données">initialisation des tableaux de données</a></li>
   </ul>
 </nav>
     </div>
@@ -128,7 +129,11 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="récuperation-des-données" class="level1">
 <h1>récuperation des données</h1>
-<p>response = requests.get(url) data = response.json() data</p>
+<p>response = requests.get(url) data = response.json()</p>
+</section>
+<section id="initialisation-des-tableaux-de-données" class="level1">
+<h1>initialisation des tableaux de données</h1>
+<p>temp = data[“hourly”][“temperature_2m”] precipitation = data[“daily”][“precipitation_sum”] precipitation_h = data[“hourly”][“precipitation”] wind = data[“daily”][“wind_speed_10m_max”] tempmin = data[“daily”][“temperature_2m_min”] tempmax = data[“daily”][“temperature_2m_max”] icon = data[“daily”][“weathercode”]</p>
 
 
 </section>
