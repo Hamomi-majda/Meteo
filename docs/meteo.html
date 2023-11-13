@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Meteo</title>
+<title>Meteo – meteo</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -87,7 +87,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./meteo.html" rel="" target="" aria-current="page">
- <span class="menu-text">Meteo</span></a>
+ <span class="menu-text">initialisation des dates de debut et fin d’extraction de données</span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
@@ -101,32 +101,37 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#initialisation-des-dates-de-debut-et-fin-dextraction-de-données" id="toc-initialisation-des-dates-de-debut-et-fin-dextraction-de-données" class="nav-link active" data-scroll-target="#initialisation-des-dates-de-debut-et-fin-dextraction-de-données">initialisation des dates de debut et fin d’extraction de données</a></li>
+  <li><a href="#copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" id="toc-copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" class="nav-link" data-scroll-target="#copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent">copie de l’URL du site open-meteo avec les differents critères qui nous interessent</a></li>
+  <li><a href="#récuperation-des-données" id="toc-récuperation-des-données" class="nav-link" data-scroll-target="#récuperation-des-données">récuperation des données</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Meteo</h1>
-</div>
 
 
+<p>import numpy as np</p>
+<p>import requests import datetime from dateutil.relativedelta import relativedelta</p>
+<section id="initialisation-des-dates-de-debut-et-fin-dextraction-de-données" class="level1">
+<h1>initialisation des dates de debut et fin d’extraction de données</h1>
+<p>date_debut = datetime.datetime.now() - relativedelta(days=2) date_fin = date_debut + relativedelta(days=6) # formatage des dates pour importer le bon URL date_debut_formattee = date_debut.strftime(‘%Y-%m-%d’) date_fin_formattee = date_fin.strftime(‘%Y-%m-%d’)</p>
+</section>
+<section id="copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" class="level1">
+<h1>copie de l’URL du site open-meteo avec les differents critères qui nous interessent</h1>
+<p>url = f”https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&amp;longitude=3.8763&amp;hourly=temperature_2m,weathercode,precipitation&amp;daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&amp;timezone=Europe%2FLondon&amp;start_date={date_debut_formattee}&amp;end_date={date_fin_formattee}”</p>
+</section>
+<section id="récuperation-des-données" class="level1">
+<h1>récuperation des données</h1>
+<p>response = requests.get(url) data = response.json() data</p>
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
-
-</header>
-
-<p>Welcome in a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
-
-
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

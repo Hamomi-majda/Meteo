@@ -1,6 +1,21 @@
----
-title: "Meteo"
----
-Welcome in a Quarto website.
+```{python}
+import numpy as np
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+import requests
+import datetime
+from dateutil.relativedelta import relativedelta
+
+# initialisation des dates de debut et fin d'extraction de données
+date_debut = datetime.datetime.now() - relativedelta(days=2)
+date_fin = date_debut + relativedelta(days=6)
+# formatage des dates pour importer le bon URL
+date_debut_formattee = date_debut.strftime('%Y-%m-%d') 
+date_fin_formattee = date_fin.strftime('%Y-%m-%d')  
+
+# copie de l'URL du site open-meteo avec les differents critères qui nous interessent
+url = f"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,weathercode,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}"
+
+# récuperation des données
+response = requests.get(url)
+data = response.json()
+data

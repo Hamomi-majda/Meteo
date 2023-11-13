@@ -2,8 +2,8 @@
   {
     "objectID": "meteo.html",
     "href": "meteo.html",
-    "title": "Meteo",
+    "title": "initialisation des dates de debut et fin d’extraction de données",
     "section": "",
-    "text": "Welcome in a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "import numpy as np\nimport requests import datetime from dateutil.relativedelta import relativedelta\n\ninitialisation des dates de debut et fin d’extraction de données\ndate_debut = datetime.datetime.now() - relativedelta(days=2) date_fin = date_debut + relativedelta(days=6) # formatage des dates pour importer le bon URL date_debut_formattee = date_debut.strftime(‘%Y-%m-%d’) date_fin_formattee = date_fin.strftime(‘%Y-%m-%d’)\n\n\ncopie de l’URL du site open-meteo avec les differents critères qui nous interessent\nurl = f”https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,weathercode,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}”\n\n\nrécuperation des données\nresponse = requests.get(url) data = response.json() data"
   }
 ]
