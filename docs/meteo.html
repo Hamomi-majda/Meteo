@@ -109,6 +109,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" id="toc-copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent" class="nav-link" data-scroll-target="#copie-de-lurl-du-site-open-meteo-avec-les-differents-critères-qui-nous-interessent">copie de l’URL du site open-meteo avec les differents critères qui nous interessent</a></li>
   <li><a href="#récuperation-des-données" id="toc-récuperation-des-données" class="nav-link" data-scroll-target="#récuperation-des-données">récuperation des données</a></li>
   <li><a href="#initialisation-des-tableaux-de-données" id="toc-initialisation-des-tableaux-de-données" class="nav-link" data-scroll-target="#initialisation-des-tableaux-de-données">initialisation des tableaux de données</a></li>
+  <li><a href="#calcule-la-somme-des-24-dernières-valeurs-de-precipitation_h" id="toc-calcule-la-somme-des-24-dernières-valeurs-de-precipitation_h" class="nav-link" data-scroll-target="#calcule-la-somme-des-24-dernières-valeurs-de-precipitation_h">Calcule la somme des 24 dernières valeurs de precipitation_h</a></li>
   </ul>
 </nav>
     </div>
@@ -181,7 +182,11 @@ if 0 &lt; intensity &lt;= 2:
 elif intensity &gt; 2:
     return f'&lt;img src="icon/wi-raindrops.svg" width="40" height="40" /&gt;'
 else:
-    return ""       </code></pre>
+    return ""  </code></pre>
+</section>
+<section id="calcule-la-somme-des-24-dernières-valeurs-de-precipitation_h" class="level1">
+<h1>Calcule la somme des 24 dernières valeurs de precipitation_h</h1>
+<p>precipitation_h = [0 if value is None else value for value in precipitation_h] precipitationd = sum(precipitation_h[-24:])</p>
 
 
 </section>

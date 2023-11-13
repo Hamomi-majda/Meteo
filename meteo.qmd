@@ -85,4 +85,7 @@ def iconrain(i):
     elif intensity > 2:
         return f'<img src="icon/wi-raindrops.svg" width="40" height="40" />'
     else:
-        return ""       
+        return ""  
+# Calcule la somme des 24 dernières valeurs de precipitation_h
+precipitation_h = [0 if value is None else value for value in precipitation_h]
+precipitationd = sum(precipitation_h[-24:])        
