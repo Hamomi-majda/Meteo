@@ -37,4 +37,35 @@ def index(i):
     
     jours_semaine = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]  
-     
+     def icon(i):
+    """
+    Association de chaque code WBO à un pictogramme correspondant. Retourne le chemin d'accès au pictogramme par une chaîne de caractères. Version daily.
+    """
+    code = icon[i]
+
+    if code == 0:
+        return "icon/wi-day-sunny.svg"
+    elif code == 1:
+        return "icon/wi-day-sunny-overcast.svg"
+    elif code == 2:
+        return "icon/wi-day-cloudy.svg"
+    elif code == 3:
+        return "icon/wi-cloud.svg"
+    elif code in [45, 48]:
+        return "icon/wi-fog.svg"
+    elif code in [51, 53, 55, 56, 57]:
+        return "icon/wi-sprinkle.svg"
+    elif code in [61, 81, 82]:
+        return "icon/wi-showers.svg"
+    elif code == 63:
+        return "icon/wi-rain-wind.svg"
+    elif code in [65, 66, 67]:
+        return "icon/wi-rain.svg"
+    elif code in [71, 73, 75, 85, 86]:
+        return "icon/wi-snow.svg"
+    elif code in [95, 96]:
+        return "icon/wi-storm-showers.svg"
+    elif code == 99:
+        return "icon/wi-thunderstorm.svg"
+    else:
+        return "icon/wi-moon-new.svg"
