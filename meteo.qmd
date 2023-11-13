@@ -32,3 +32,8 @@ def date(i):
     
     d = datetime.datetime.now() + relativedelta(days=i)
     return f"{d.day}-{d.month}-{d.year}"
+
+def index(i):
+    
+    jours_semaine = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]   
