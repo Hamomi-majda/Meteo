@@ -139,14 +139,9 @@ ul.task-list li input[type="checkbox"] {
 return f"{d.day}-{d.month}-{d.year}"</code></pre>
 <p>def index(i):</p>
 <pre><code>jours_semaine = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]  
- def icon(i):
-"""
-Association de chaque code WBO à un pictogramme correspondant. Retourne le chemin d'accès au pictogramme par une chaîne de caractères. Version daily.
-"""
-code = icon[i]
-
-if code == 0:
+return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]  </code></pre>
+<p>def icon(i): ““” Association de chaque code WBO à un pictogramme correspondant. Retourne le chemin d’accès au pictogramme par une chaîne de caractères. Version daily. ““” code = icon[i]</p>
+<pre><code>if code == 0:
     return "icon/wi-day-sunny.svg"
 elif code == 1:
     return "icon/wi-day-sunny-overcast.svg"
@@ -172,6 +167,21 @@ elif code == 99:
     return "icon/wi-thunderstorm.svg"
 else:
     return "icon/wi-moon-new.svg"</code></pre>
+<p>def iconrain(i):</p>
+<pre><code>"""
+Retourne une image sous format HTML correspondant à l'intensité des précipitations.
+"""
+if not isinstance(precipitation[i], float):
+    return ""
+
+intensity = precipitation[i]
+
+if 0 &lt; intensity &lt;= 2:
+    return f'&lt;img src="icon/wi-raindrop.svg" width="20" height="20" /&gt;'
+elif intensity &gt; 2:
+    return f'&lt;img src="icon/wi-raindrops.svg" width="40" height="40" /&gt;'
+else:
+    return ""       </code></pre>
 
 
 </section>

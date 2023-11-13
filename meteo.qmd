@@ -37,7 +37,7 @@ def index(i):
     
     jours_semaine = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]  
-     def icon(i):
+def icon(i):
     """
     Association de chaque code WBO à un pictogramme correspondant. Retourne le chemin d'accès au pictogramme par une chaîne de caractères. Version daily.
     """
@@ -69,3 +69,20 @@ def index(i):
         return "icon/wi-thunderstorm.svg"
     else:
         return "icon/wi-moon-new.svg"
+
+def iconrain(i):
+    
+    """
+    Retourne une image sous format HTML correspondant à l'intensité des précipitations.
+    """
+    if not isinstance(precipitation[i], float):
+        return ""
+
+    intensity = precipitation[i]
+
+    if 0 < intensity <= 2:
+        return f'<img src="icon/wi-raindrop.svg" width="20" height="20" />'
+    elif intensity > 2:
+        return f'<img src="icon/wi-raindrops.svg" width="40" height="40" />'
+    else:
+        return ""       
