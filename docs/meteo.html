@@ -134,6 +134,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="initialisation-des-tableaux-de-données" class="level1">
 <h1>initialisation des tableaux de données</h1>
 <p>temp = data[“hourly”][“temperature_2m”] precipitation = data[“daily”][“precipitation_sum”] precipitation_h = data[“hourly”][“precipitation”] wind = data[“daily”][“wind_speed_10m_max”] tempmin = data[“daily”][“temperature_2m_min”] tempmax = data[“daily”][“temperature_2m_max”] icon = data[“daily”][“weathercode”]</p>
+<p>def date(i):</p>
+<pre><code>d = datetime.datetime.now() + relativedelta(days=i)
+return f"{d.day}-{d.month}-{d.year}"</code></pre>
 
 
 </section>

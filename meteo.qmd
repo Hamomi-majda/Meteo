@@ -27,3 +27,8 @@ wind = data["daily"]["wind_speed_10m_max"]
 tempmin = data["daily"]["temperature_2m_min"]
 tempmax = data["daily"]["temperature_2m_max"]
 icon = data["daily"]["weathercode"]
+
+def date(i):
+    
+    d = datetime.datetime.now() + relativedelta(days=i)
+    return f"{d.day}-{d.month}-{d.year}"
