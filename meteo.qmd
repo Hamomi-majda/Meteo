@@ -2,7 +2,6 @@
 title: "Meteo"
 ---
 ```{python}
-#|code-fold: true
 import numpy as np
 
 import requests
@@ -17,7 +16,7 @@ date_debut_formattee = date_debut.strftime('%Y-%m-%d')
 date_fin_formattee = date_fin.strftime('%Y-%m-%d')  
 
 # copie de l'URL du site open-meteo avec les differents critères qui nous interessent
-url = f"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,relative_humidity_2m,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}"
+url = f"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,weathercode,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}"
 
 # récuperation des données
 response = requests.get(url)
@@ -25,7 +24,6 @@ data = response.json()
 
 # initialisation des tableaux de données
 temp = data["hourly"]["temperature_2m"]
-humidity= data["hourly"][relative_humidity_2m]
 precipitation = data["daily"]["precipitation_sum"]
 precipitation_h = data["hourly"]["precipitation"]
 wind = data["daily"]["wind_speed_10m_max"]
@@ -37,21 +35,6 @@ def date(i):
     
     d = datetime.datetime.now() + relativedelta(days=i)
     return f"{d.day}-{d.month}-{d.year}"
-
-meanhumidity = np.zeros(7)
-tab = np.zeros((7, 24))
-t= 0
-for i in range(7):
-    for j in range(24):
-        if humidity[t] is None:
-            tab[i, j] = tab[i, j - 1] if j > 0 else 0
-        else:
-            tab[i, j] = humidity[t]
-        t += 1
-
-for i in range(7):
-    meanhumidity[i] = round(statistics.mean(tab[i]), 0)
-
 
 def index(i):
     
@@ -162,16 +145,6 @@ res = f"""
         <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[4]}°C </td>
         <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[5]}°C </td>
         <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[6]}°C </td>
-    </tr>
-     <tr> 
-        <td> Humidity  </td>
-        <td> {meanhumidity[0]} km/h </td>
-        <td> {meanhumidity[1]} km/h </td>
-        <td style="border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)"> {meanhumidity[2]} km/h </td>
-        <td> {meanhumidity[3]} km/h </td>
-        <td> {meanhumidity[4]} km/h </td>
-        <td> {meanhumidity[5]} km/h </td>
-        <td> {meanhumidity[6]} km/h </td>
     </tr>
     <tr> 
         <td> Wind Speed Max  </td>
