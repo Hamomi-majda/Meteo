@@ -1,3 +1,16 @@
 ---
-title: "Meteo"
+title: "Météo"
 ---
+Bienvenue sur notre site web "Prévisions météo à Montpellier". Sur la page Météo Montpellier, vous trouverez un tableau qui présente la météo à Montpellier. Vous pouvez consulter le code source dans la même page. 
+L'objectif de ce site est de présenter les prévisions météorologiques de Montpellier pour aujourd'hui, ainsi que celles des deux jours précédents et des quatre jours à venir.
+les informations fournies:
+<ol>
+    <li>la date,</li>
+    <li>le pictogramme, </li>
+    <li>la températures maximale °C, </li>
+    <li>la températures minimale en °C, </li>
+    <li>l'humidité,</li>
+    <li>la vitesse maximale du vent en k/h,</li>
+    <li> la quantité de précipitations en mm.</li>
+</ol>
+Toutes les informations sont extraites d'une API (Interface de Programmation d'Application) sélectionnée et fournie par [open-meteo.com](https://open-meteo.com/en/docs/meteofrance-api).
