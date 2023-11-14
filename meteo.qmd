@@ -1,4 +1,8 @@
+---
+title: "Meteo"
+---
 ```{python}
+#|code-fold: true
 import numpy as np
 
 import requests
@@ -13,7 +17,7 @@ date_debut_formattee = date_debut.strftime('%Y-%m-%d')
 date_fin_formattee = date_fin.strftime('%Y-%m-%d')  
 
 # copie de l'URL du site open-meteo avec les differents critères qui nous interessent
-url = f"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,weathercode,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}"
+url = f"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,relative_humidity_2m,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}"
 
 # récuperation des données
 response = requests.get(url)
@@ -21,6 +25,7 @@ data = response.json()
 
 # initialisation des tableaux de données
 temp = data["hourly"]["temperature_2m"]
+humidity= data["hourly"][relative_humidity_2m]
 precipitation = data["daily"]["precipitation_sum"]
 precipitation_h = data["hourly"]["precipitation"]
 wind = data["daily"]["wind_speed_10m_max"]
@@ -33,11 +38,26 @@ def date(i):
     d = datetime.datetime.now() + relativedelta(days=i)
     return f"{d.day}-{d.month}-{d.year}"
 
+meanhumidity = np.zeros(7)
+tab = np.zeros((7, 24))
+t= 0
+for i in range(7):
+    for j in range(24):
+        if humidity[t] is None:
+            tab[i, j] = tab[i, j - 1] if j > 0 else 0
+        else:
+            tab[i, j] = humidity[t]
+        t += 1
+
+for i in range(7):
+    meanhumidity[i] = round(statistics.mean(tab[i]), 0)
+
+
 def index(i):
     
     jours_semaine = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]  
-def icon(i):
+def iconkey(i):
     """
     Association de chaque code WBO à un pictogramme correspondant. Retourne le chemin d'accès au pictogramme par une chaîne de caractères. Version daily.
     """
@@ -89,3 +109,93 @@ def iconrain(i):
 # Calcule la somme des 24 dernières valeurs de precipitation_h
 precipitation_h = [0 if value is None else value for value in precipitation_h]
 precipitationd = sum(precipitation_h[-24:])        
+from IPython.display import HTML
+from tabulate import tabulate
+res = f"""
+<table class= "table1-style">
+    <thead>
+    <tr>  
+        <th  style="border-top-left-radius : 20px 20px"> Days </th>
+        <th>  {index(-2)} <br> <small> {date(-2)} </small></th>
+        <th>  {index(-1)} <br> <small>{date(-1)}</small></th>
+        <th style="border-top:3px solid rgb(85, 215, 195,0.5);border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)">   <a  style="text-decoration:none"> Today <br> <small>{date(0)}</small> </a></th>
+        <th>  {index(1)} <br> <small>{date(1)}</small></th>
+        <th>  {index(2)} <br> <small>{date(2)}</small></th>
+        <th>  {index(3)} <br> <small>{date(3)}</small></th>
+        <th  style="border-top-right-radius : 20px 20px" >  {index(4)} <br> <small>{date(4)}</small></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr> 
+        <td>  </td>
+        <td> <img src={iconkey(0)} width="50"
+  height="50" /> </td>
+        <td> <img src={iconkey(1)} width="50"
+  height="50" /> </td>
+        <td style="border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)"> <img src={iconkey(2)} width="50"
+  height="50" /> </td>
+        <td> <img src={iconkey(3)} width="50"
+  height="50" /> </td>
+        <td> <img src={iconkey(4)} width="50"
+  height="50" /> </td>
+        <td> <img src={iconkey(5)} width="50"
+  height="50" /> </td>
+        <td> <img src={iconkey(6)} width="50"
+  height="50" /> </td>
+    </tr>
+    <tr> 
+        <td> Temp Max (°C) </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5); font-weight: bold;" > {tempmax[0]}°C </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5);font-weight: bold;" > {tempmax[1]}°C </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5);font-weight: bold;border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)" > {tempmax[2]}°C </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5);font-weight: bold;" > {tempmax[3]}°C </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5);font-weight: bold;" > {tempmax[4]}°C </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5);font-weight: bold;" > {tempmax[5]}°C </td>
+        <td style =" background-color : rgba(255, 165, 80, 0.5);font-weight: bold;" > {tempmax[6]}°C </td>
+    </tr>
+    <tr > 
+        <td>  Temp Min (°C) </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[0]}°C </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[1]}°C </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)" > {tempmin[2]}°C </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[3]}°C </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[4]}°C </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[5]}°C </td>
+        <td style =" background-color : rgba(144, 238, 144, 0.5);font-weight: bold;" > {tempmin[6]}°C </td>
+    </tr>
+     <tr> 
+        <td> Humidity  </td>
+        <td> {meanhumidity[0]} km/h </td>
+        <td> {meanhumidity[1]} km/h </td>
+        <td style="border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)"> {meanhumidity[2]} km/h </td>
+        <td> {meanhumidity[3]} km/h </td>
+        <td> {meanhumidity[4]} km/h </td>
+        <td> {meanhumidity[5]} km/h </td>
+        <td> {meanhumidity[6]} km/h </td>
+    </tr>
+    <tr> 
+        <td> Wind Speed Max  </td>
+        <td> {int(wind[0])} km/h </td>
+        <td> {int(wind[1])} km/h </td>
+        <td style="border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)"> {int(wind[2])} km/h </td>
+        <td> {int(wind[3])} km/h </td>
+        <td> {int(wind[4])} km/h </td>
+        <td> {int(wind[5])} km/h </td>
+        <td> {int(wind[6])} km/h </td>
+    </tr>
+    <tr> 
+        <td style="border-bottom-left-radius : 20px 20px"> Precipitation </td>
+        <td> {iconrain(0)} {precipitation[0]} mm </td>
+        <td> {iconrain(1)} {precipitation [1]} mm </td>
+        <td style="border-bottom:3px solid rgb(85, 215, 195,0.5);border-right:3px solid rgb(85, 215, 195,0.5);border-left:3px solid rgb(85, 215, 195,0.5)"> {iconrain(2)} {precipitation[2]} mm </td>
+        <td> {iconrain(3)} {precipitation[3]} mm </td>
+        <td> {iconrain(4)} {precipitation[4]} mm </td>
+        <td> {iconrain(5)} {precipitation[5]} mm </td>
+        <td style="border-bottom-right-radius : 20px 20px"> {iconrain(6)} {precipitationd} mm </td>
+    </tr>
+    </tbody>
+
+</table>
+"""
+HTML(res)
+```
