@@ -4,27 +4,29 @@ title: "Météo Montpellier"
 ---
 ```{python}
 #|code-fold: true
+# Importation des bibliothèques nécessaires
 import numpy as np
 import statistics
 import requests
 import datetime
 from dateutil.relativedelta import relativedelta
 
-# initialisation des dates de debut et fin d'extraction de données
+# Initialisation des dates de début et de fin pour l'extraction des données
 date_debut = datetime.datetime.now() - relativedelta(days=2)
 date_fin = date_debut + relativedelta(days=6)
-# formatage des dates pour importer le bon URL
+
+# Formatage des dates pour l'URL de l'API
 date_debut_formattee = date_debut.strftime('%Y-%m-%d') 
 date_fin_formattee = date_fin.strftime('%Y-%m-%d')  
 
-# copie de l'URL du site open-meteo avec les differents critères qui nous interessent
+# Construction de l'URL pour l'API open-meteo avec les critères spécifiés
 url = f"https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&hourly=temperature_2m,,relative_humidity_2m,precipitation&daily=weathercode,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,precipitation_sum&timezone=Europe%2FLondon&start_date={date_debut_formattee}&end_date={date_fin_formattee}"
 
-# récuperation des données
+# Récupération des données depuis l'API
 response = requests.get(url)
 data = response.json()
 
-# initialisation des tableaux de données
+# Initialisation des tableaux pour les différents paramètres météorologiques
 humidity = data["hourly"]["relative_humidity_2m"]
 precipitation = data["daily"]["precipitation_sum"]
 precipitation_h = data["hourly"]["precipitation"]
@@ -33,14 +35,18 @@ tempmin = data["daily"]["temperature_2m_min"]
 tempmax = data["daily"]["temperature_2m_max"]
 icon = data["daily"]["weathercode"]
 
+# Fonction pour formater la date en fonction de l'index donné
 def date(i):
     
     d = datetime.datetime.now() + relativedelta(days=i)
     return f"{d.day}-{d.month}-{d.year}"
 
+
+# Initialisation des tableaux pour l'humidité moyenne et un tableau 2D pour les valeurs horaires de l'humidité
 meanhumidity = np.zeros(7)
 tab = np.zeros((7, 24))
 t= 0
+# Remplissage du tableau 2D avec les valeurs horaires de l'humidité
 for i in range(7):
     for j in range(24):
         if humidity[t] is None:
@@ -48,14 +54,17 @@ for i in range(7):
         else:
             tab[i, j] = humidity[t]
         t += 1
-
+# Calcul de l'humidité moyenne pour chaque jour
 for i in range(7):
-    meanhumidity[i] = round(statistics.mean(tab[i]), 0)    
+    meanhumidity[i] = round(statistics.mean(tab[i]), 0)  
 
+# Fonction pour obtenir le jour de la semaine en fonction de l'index donné
 def index(i):
     
     jours_semaine = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     return jours_semaine[(datetime.datetime.now().weekday() + i) % 7]  
+
+# Fonction pour mapper le code météo à l'icône correspondante
 def iconkey(i):
     """
     Association de chaque code WBO à un pictogramme correspondant. Retourne le chemin d'accès au pictogramme par une chaîne de caractères. Version daily.
@@ -89,6 +98,7 @@ def iconkey(i):
     else:
         return "icon/wi-moon-new.svg"
 
+# Fonction pour afficher l'icône de précipitation en fonction de l'intensité
 def iconrain(i):
     
     """
@@ -108,6 +118,8 @@ def iconrain(i):
 # Calcule la somme des 24 dernières valeurs de precipitation_h
 precipitation_h = [0 if value is None else value for value in precipitation_h]
 precipitationd = sum(precipitation_h[-24:])        
+
+# Importation des bibliothèques nécessaires pour afficher du HTML et tabuler les données
 from IPython.display import HTML
 from tabulate import tabulate
 res = f"""
@@ -164,13 +176,13 @@ res = f"""
     </tr>
     <tr> 
         <td> Humidity </td>
-        <td> {meanhumidity[0]}  </td>
-        <td> {meanhumidity[1]}  </td>
-        <td> {meanhumidity[2]}  </td>
-        <td> {meanhumidity[3]}  </td>
-        <td> {meanhumidity[4]}  </td>
-        <td> {meanhumidity[5]}  </td>
-        <td> {meanhumidity[6]}  </td>
+        <td> {meanhumidity[0]} % </td>
+        <td> {meanhumidity[1]} % </td>
+        <td> {meanhumidity[2]} % </td>
+        <td> {meanhumidity[3]} % </td>
+        <td> {meanhumidity[4]} % </td>
+        <td> {meanhumidity[5]} % </td>
+        <td> {meanhumidity[6]} % </td>
     </tr>
     <tr> 
         <td> Wind Speed Max  </td>

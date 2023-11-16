@@ -1,6 +1,10 @@
 ## Objectif de site
 L'objectif de notre application météo est de fournir une visualisation claire  des conditions météorologiques actuelles et prévues pour la région de Montpellier sur une période d'une semaine. L'application affiche des informations telles que la température maximale et minimale, l'humidité, la vitesse du vent, les précipitations, ainsi que des icônes météo représentant le code météo quotidien.
 
+## Website
+Le site internet est disponible à l'adresse suivante:[https://hamomi-majda.github.io/meteo/](https://hamomi-majda.github.io/meteo/)
+
+
 ## La technologie utilisée
 La technologie principale que j'ai utilisée pour le développement de mon projet est le langage de programmation Python. En plus du langage lui-même, j'ai utilisé plusieurs bibliothèques et modules qui sont couramment utilisés en Python. Ces bibliothèques incluent  NumPy,Statistics et d'autres qui sont spécifiées dans le fichier 'requirements.txt'.
 J'ai utilisé d'autre modules intégrés tels que Datetime, Requests qui sont utilisés pour des tâches spécifiques liées à la manipulation des données, aux requêtes HTTP et à la gestion des dates et heures. En outre, le module IPython.display est utilisé pour afficher des tables HTML dans un environnement Quarto Markdown.
