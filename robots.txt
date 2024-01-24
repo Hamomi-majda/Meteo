@@ -1,1 +1,1 @@
-Sitemap: https://github.com/Hamomi-majda/meteo/sitemap.xml
+Sitemap: https://Hamomi-majda.github.io/meteo/sitemap.xml
